@@ -1,5 +1,4 @@
-# landClassificationGEE
-# Land Cover Classification of Kamabuye Sector 2021 to 2023
+# Land Cover Classification of Kamabuye Sector
 
 This repository contains the code for land cover classification of the Kamabuye Sector, Bugesera District in Rwanda. The classification process utilizes Sentinel-2 imagery, filtered and simplified geometries, and machine learning classifiers to distinguish various land cover types such as water, built-up areas, bare land, cropland, and vegetation.
 
