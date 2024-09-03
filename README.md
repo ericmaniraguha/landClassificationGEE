@@ -1,4 +1,4 @@
-# Land Cover Classification of Kamabuye Sector of 2021-2023
+# Land Cover Classification of Kamabuye Sector
 
 This repository contains the code for land cover classification of the Kamabuye Sector, Bugesera District in Rwanda. The classification process utilizes Sentinel-2 imagery, filtered and simplified geometries, and machine learning classifiers to distinguish various land cover types such as water, built-up areas, bare land, cropland, and vegetation.
 
@@ -87,15 +87,38 @@ var classified = rgbImage.select(bands).classify(classifier);
 Map.addLayer(classified, {min: 0, max: 4, palette: ['blue', 'red', 'yellow', 'pink', 'green']}, 'Land Cover Classification');
 ```
 
-### 5. Accuracy Assessment
+### 5. Accuracy Assessment (Confusion matrix, Overall, Producer and Consumer)
 The code evaluates the performance of the classifier using a confusion matrix, calculating overall accuracy, producer accuracy, and consumer accuracy.
 
 ```javascript
 
-// Generate the confusion matrix
+// Classify the testing partition using the trained classifier
+var testClassification = testingPartition.classify(classifier);
+
+// Generate the confusion matrix comparing actual classes ('Class') with predicted classes ('classification')
 var confusionMatrix = testClassification.errorMatrix('Class', 'classification');
+
+// Print the confusion matrix to inspect how the classifier performed in terms of class predictions
+print('Confusion Matrix:', confusionMatrix);
+
+// Calculate the overall accuracy of the classifier, which is the proportion of correctly classified instances
 var accuracy = confusionMatrix.accuracy();
 print('Overall Accuracy:', accuracy);
+
+// Calculate the Producer's Accuracy, which indicates the probability that a given class is correctly predicted
+var producerAccuracy = confusionMatrix.producersAccuracy();
+print('Producer Accuracy:', producerAccuracy);
+
+// Calculate the Consumer's Accuracy (User's Accuracy), which indicates the reliability of a predicted class label
+var consumerAccuracy = confusionMatrix.consumersAccuracy();
+print('Consumer Accuracy:', consumerAccuracy);
+
+// Define the class names for better readability in the chart
+var classNames = ['Water', 'Build up', 'Bareland', 'Crop Land', 'Vegetation'];
+
+// Create the Confusion Matrix Array
+var confusionMatrixArray = ee.Array(confusionMatrix.array());
+print('Confusion Matrix Array:', confusionMatrixArray);
 
 ```
 
